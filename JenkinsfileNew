@@ -42,6 +42,7 @@ pipeline{
             steps{
                 sh "docker compose up -d --build flask-app"
                 echo "Code deployed successfully"
+                echo "Changes got picked from JenkinsfileNew"
             }
         }
     }
