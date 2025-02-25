@@ -8,6 +8,12 @@ pipeline{
                 echo "Code closed successfully"
             }
         } 
+        stage("Trivy File System Scan"){
+            echo "Trivy file scan completed"
+            steps{
+                sh " trivy fs . -o results.json"
+            }
+        }
         stage("Build"){
             steps{
                 sh "docker build -t two-tier-flask-app ."
