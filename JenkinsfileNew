@@ -1,10 +1,15 @@
+@Library("shared") _
 pipeline{
     agent { label "dev"};
     stages{
         stage("Code"){
             steps{
                 
-                git url: "https://github.com/laxmanukadam/two-tier-flask-app.git" , branch: "master"
+                // git url: "https://github.com/laxmanukadam/two-tier-flask-app.git" , branch: "master"
+                // The shared library is used here to clone the repo.
+                script{
+                    clone("https://github.com/laxmanukadam/two-tier-flask-app.git","master")
+                }
                 echo "Code closed successfully"
             }
         } 
