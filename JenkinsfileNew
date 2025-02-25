@@ -35,19 +35,10 @@ pipeline{
         stage("Push to Github"){
             
             steps{
-                
-                withCredentials([usernamePassword(
-                    
-                credentialsId: "DockerHubCred",
-                usernameVariable: "DockerHubUser",
-                passwordVariable: "DockerHubPass"
-                    
-                )]){
-                
-                sh "docker login -u ${env.DockerHubUser} -p ${env.DockerHubPass}"
-                sh "docker image tag two-tier-flask-app ${env.DockerHubUser}/two-tier-flask-app"
-                sh "docker push ${env.DockerHubUser}/two-tier-flask-app:latest"
+                script{
+                    dockerpush("DockerHubCred","two-tier-flask-app")
                 }
+               
             }
         }
         
