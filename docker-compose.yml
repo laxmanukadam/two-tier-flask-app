@@ -23,7 +23,7 @@ services:
       start_period: 60s
 
   flask-app:
-    image: laxmanukadam/two_tier_flask_app_lk:latest
+    image: laxmanukadam/two-tier-flask-apps:latest
     container_name: flask-app
     ports:
       - "5000:5000"
