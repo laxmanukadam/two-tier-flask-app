@@ -1,0 +1,51 @@
+pipeline{
+    
+    agent any;
+    
+    stages{
+        
+        stage("Download"){
+            steps{
+                git url:"https://github.com/laxmanukadam/two-tier-flask-app.git" , branch:"master"
+                echo "Code Download ho Gaya."
+            }
+        }
+        stage("Build"){
+            steps{
+                sh "docker build -t my-flask-app ."
+                
+                echo "Code build successfully"
+            }
+        }
+        stage("Push"){
+            steps{
+                withCredentials([usernamePassword(
+                    
+                    credentialsId: "dockerhub-cred",
+                    usernameVariable: "dockerHubUser",
+                    passwordVariable: "dockerHubPass"
+                    
+                    )])
+                {
+                        
+                    sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPass}"
+                    sh "docker image tag my-flask-app ${env.dockerHubUser}/my-flask-app"
+                    sh "docker push ${env.dockerHubUser}/my-flask-app:latest"
+                } // end of function
+            }// end of steps
+        }// end of push stage
+        
+        stage("Test"){
+            steps{
+                echo "Test completed"
+            }
+        }
+        stage("Deploy"){
+            steps{
+                sh "docker compose up -d --build"
+                echo "Deployment completed"
+            }
+        }
+    }
+    
+}
