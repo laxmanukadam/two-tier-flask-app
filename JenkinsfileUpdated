@@ -7,7 +7,7 @@ pipeline{
         
         stage("Download"){
             steps{
-                git URL:"https://github.com/laxmanukadam/two-tier-flask-app.git" , branch:"master"
+                git url:"https://github.com/laxmanukadam/two-tier-flask-app.git" , branch:"master"
                 echo "Code Download ho Gaya."
             }
         }
