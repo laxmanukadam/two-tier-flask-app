@@ -1,0 +1,57 @@
+pipeline{
+    
+    agent any;
+    
+    stages{
+        
+        stage("code"){
+            
+            steps{
+                
+                git url: "https://github.com/laxmanukadam/two-tier-flask-app.git", branch:"master"
+                echo "code is ready"
+            }
+        }
+        stage("build"){
+            
+            steps{
+                sh "docker build -t my-app ."
+                echo "code is build"
+            }
+        }
+        
+        stage("push-to-docker"){
+            steps{
+                echo "pushing code to docker"
+                
+                withCredentials([usernamePassword(
+                credentialsId: "dockerHubCreds",
+                usernameVariable: "username",
+                passwordVariable: "password"
+                )])
+                {
+                    sh "docker login -u ${env.username} -p ${env.password}"
+                    sh "docker image tag my-app ${env.username}/my-app:latest"
+                    sh "docker push ${env.username}/my-app:latest"
+                }
+                
+                echo "code pushed to docker hub"
+                
+            }
+        }
+        stage("test"){
+            
+            steps{
+                echo "code is test"
+            }
+        }
+        stage("deploy"){
+            
+            steps{
+                sh "docker compose up -d --build flask-app"
+                echo "code is deploy"
+            }
+        }
+        
+    }
+}
