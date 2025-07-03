@@ -24,9 +24,9 @@ services:
 
   flask-app:
     #image: laxmanukadam/two-tier-flask-apps:latest
-    image: laxmanukadam/my-flask-app:latest
-    #build:
-    #  context: .
+    #image: laxmanukadam/my-flask-app:latest
+    build:
+      context: .
     container_name: flask-app
     ports:
       - "5000:5000"
