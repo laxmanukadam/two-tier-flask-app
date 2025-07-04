@@ -8,6 +8,7 @@ pipeline{
             
             steps{
                 echo "This is executing from jenkins file (JenkinsJuly2025 ) from git repository."
+                echo "${USER}"
                 git url: "https://github.com/laxmanukadam/two-tier-flask-app.git", branch:"master"
                 echo "code is ready"
             }
