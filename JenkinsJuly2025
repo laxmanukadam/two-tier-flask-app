@@ -50,6 +50,7 @@ pipeline{
             steps{
                 sh "docker compose up -d --build flask-app"
                 echo "code is deploy"
+                echo "This is executing from jenkins file (JenkinsJuly2025 ) from git repository."
             }
         }
         
